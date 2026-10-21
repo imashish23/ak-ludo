@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AK Ludo 3D</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      background: radial-gradient(circle at top, #273b73, #090e20 70%);
+      padding: 24px 16px;
+    }
+    .logo {
+      font-size: 54px;
+      margin: 20px 0 8px;
+    }
+    h1 {
+      font-size: 38px;
+      margin: 8px 0;
+      color: #ffd65a;
+      text-shadow: 0 0 18px #ff9d00;
+    }
+    .subtitle { color: #c8d5ff; margin-bottom: 28px; }
+    .panel {
+      max-width: 420px;
+      margin: auto;
+      padding: 22px;
+      border: 1px solid #536da8;
+      border-radius: 24px;
+      background: #172344;
+      box-shadow: 0 15px 40px #0008;
+    }
+    button, select {
+      width: 100%;
+      padding: 15px;
+      margin: 9px 0;
+      border: 0;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+    button { cursor: pointer; }
+    .online { background: #22c55e; color: #062b16; }
+    .computer { background: #ffd34f; color: #322300; }
+    .secondary { background: #35476e; color: white; }
+    .dice { font-size: 48px; margin: 12px; }
+    #message { color: #b9caff; line-height: 1.5; }
+    footer { margin-top: 25px; color: #8d9cc4; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="logo">🎲</div>
+  <h1>AK LUDO</h1>
+  <p class="subtitle">Premium Ludo • Play Together</p>
+
+  <main class="panel">
+    <div class="dice">🎲 🔴 🟢</div>
+    <h2 id="heading">अपना गेम चुनें</h2>
+
+    <button class="online" onclick="showOnline()">
+      🌐 Play Online
+    </button>
+
+    <button class="computer" onclick="showComputer()">
+      🤖 Play with Computer
+    </button>
+
+    <select id="language" onchange="changeLanguage()">
+      <option value="hi">हिंदी</option>
+      <option value="en">English</option>
+    </select>
+
+    <div id="options"></div>
+    <p id="message">आपका अगला Ludo मैच यहाँ शुरू होगा!</p>
+  </main>
+
+  <footer>AK Ludo © 2026</footer>
+
+  <script>
+    let language = "hi";
+
+    function showOnline() {
+      document.getElementById("heading").textContent =
+        language === "hi" ? "ऑनलाइन गेम" : "Online Game";
+
+      document.getElementById("options").innerHTML = `
+        <button class="secondary" onclick="createRoom()">
+          ${language === "hi" ? "➕ रूम बनाएँ" : "➕ Create Room"}
+        </button>
+        <button class="secondary" onclick="joinRoom()">
+          ${language === "hi" ? "🔑 रूम कोड डालें" : "🔑 Join Room"}
+        </button>`;
+      document.getElementById("message").textContent =
+        language === "hi"
+        ? "ऑनलाइन मल्टीप्लेयर जोड़ने के लिए अगला चरण बाकी है।"
+        : "Online multiplayer setup is the next step.";
+    }
+
+    function showComputer() {
+      document.getElementById("heading").textContent =
+        language === "hi" ? "कंप्यूटर के साथ खेलें" : "Play vs Computer";
+
+      document.getElementById("options").innerHTML = `
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="normal">Normal</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button class="secondary" onclick="startDemo()">
+          ${language === "hi" ? "गेम शुरू करें" : "Start Game"}
+        </button>`;
+      document.getElementById("message").textContent =
+        language === "hi"
+        ? "AI कठिनाई चुनें। पूरा Ludo इंजन अगले चरण में बनेगा।"
+        : "Choose AI difficulty. The full Ludo engine comes next.";
+    }
+
+    function createRoom() {
+      document.getElementById("message").textContent =
+        language === "hi"
+        ? "रूम बनाने के लिए Firebase मल्टीप्लेयर सेटअप आवश्यक है।"
+        : "Firebase multiplayer setup is required to create rooms.";
+    }
+
+    function joinRoom() {
+      const code = prompt(language === "hi" ? "रूम कोड डालें:" : "Enter room code:");
+      if (code) {
+        document.getElementById("message").textContent =
+          language === "hi"
+          ? "रूम कोड: " + code + " — ऑनलाइन कनेक्शन अगले चरण में जुड़ेगा।"
+          : "Room code: " + code + " — online connection comes next.";
+      }
+    }
+
+    function startDemo() {
+      const level = document.getElementById("difficulty").value;
+      document.getElementById("message").textContent =
+        (language === "hi" ? "चुना गया स्तर: " : "Selected level: ") +
+        level + ". पूरा गेम अभी बनना बाकी है।";
+    }
+
+    function changeLanguage() {
+      language = document.getElementById("language").value;
+      document.getElementById("heading").textContent =
+        language === "hi" ? "अपना गेम चुनें" : "Choose Your Game";
+      document.getElementById("options").innerHTML = "";
+      document.getElementById("message").textContent =
+        language === "hi"
+        ? "आपका अगला Ludo मैच यहाँ शुरू होगा!"
+        : "Your next Ludo match starts here!";
+    }
+  </script>
+</body>
+</html>
